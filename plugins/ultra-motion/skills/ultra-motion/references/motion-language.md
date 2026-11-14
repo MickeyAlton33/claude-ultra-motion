@@ -63,6 +63,13 @@ Cinematic pieces sit at the long end; social/UI pieces at the short end. Reading
 - Parallax: 2–3 layers, background moves 30–50% of the foreground's distance.
 - 3D (Three.js in HyperFrames or Blender renders): one camera move per beat, ease-in-out, no free orbiting.
 
+## SVG stroke draw-on (HyperFrames)
+Put each path's real length in the markup as attributes, `stroke-dasharray="L" stroke-dashoffset="L"`, and tween
+the attribute: `tl.fromTo(path, {attr: {"stroke-dashoffset": L}}, {attr: {"stroke-dashoffset": 0}, …})`.
+Don't use `pathLength="1"` with CSS `stroke-dasharray`/`stroke-dashoffset`. In HyperFrames renders that pops the
+whole stroke in on a single frame. (Verified: the attribute version drew over 17 frames; the CSS version over 1.)
+Draws read best with `power4.out` 0.6–0.9 s. Check it by counting stroke pixels frame by frame, not by eye on a sheet.
+
 ## Seek-safety (HyperFrames)
 Every timeline paused and registered on `window.__timelines`; no `Math.random()` without a seed, no
 `Date.now()`, `setTimeout`, `requestAnimationFrame` loops or CSS animations that run outside the GSAP timeline.
