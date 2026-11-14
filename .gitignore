@@ -1,0 +1,32 @@
+# media and renders — never commit
+*.mp4
+*.mov
+*.webm
+*.gif
+*.wav
+*.mp3
+*.m4a
+*.aiff
+*.png
+*.jpg
+*.jpeg
+renders/
+review/
+audio/
+models/
+*.safetensors
+*.bin
+*.pth
+*.pt
+
+# environments and secrets
+.venv/
+venv/
+node_modules/
+__pycache__/
+.env*
+*.key
+*.pem
+
+# os
+.DS_Store
