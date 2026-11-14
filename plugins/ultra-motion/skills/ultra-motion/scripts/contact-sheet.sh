@@ -39,22 +39,38 @@ done
 mkdir -p "$(dirname "$OUT")"
 
 DUR="$(ffprobe -v error -show_entries format=duration -of csv=p=0 "$VIDEO")"
-N="$(python3 -I -c "import math,sys; print(max(1, math.ceil(float(sys.argv[1])*float(sys.argv[2]))))" "$DUR" "$FPS")"
+VFPS="$(ffprobe -v error -select_streams v:0 -show_entries stream=r_frame_rate -of csv=p=0 "$VIDEO")"
+NFR="$(ffprobe -v error -select_streams v:0 -count_packets -show_entries stream=nb_read_packets -of csv=p=0 "$VIDEO")"
+
+# Pick exact frame numbers at the middle of each 1/FPS interval: tile k shows frame round((k+0.5)/FPS * vfps).
+# (The fps filter's rounding drifts by up to half an interval, so frames are selected by index instead.)
+FRAMES="$(python3 -I - "$DUR" "$FPS" "$VFPS" "$NFR" <<'PY'
+import math, sys
+dur, fps, nfr = float(sys.argv[1]), float(sys.argv[2]), int(sys.argv[4])
+num, _, den = sys.argv[3].partition("/")
+vfps = float(num) / float(den or 1)
+n = max(1, math.ceil(dur * fps))
+idx = sorted({min(nfr - 1, int(round((k + 0.5) / fps * vfps))) for k in range(n)})
+print(f"{vfps} " + " ".join(map(str, idx)))
+PY
+)"
+VFPS_F="${FRAMES%% *}"; IDX=(${FRAMES#* })
+N="${#IDX[@]}"
 ROWS=$(( (N + COLS - 1) / COLS ))
+SEL="$(printf 'eq(n\\,%s)+' "${IDX[@]}")"; SEL="${SEL%+}"
 
-# Sample at the middle of each 1/FPS interval so tile k shows t = (k + 0.5)/FPS.
 ffmpeg -nostdin -hide_banner -loglevel error -y -i "$VIDEO" \
-  -vf "fps=${FPS}:start_time=$(python3 -I -c "print(0.5/float(${FPS}))"),scale=${W}:-2:flags=lanczos,tile=${COLS}x${ROWS}:padding=6:margin=6:color=0x1b1b1b" \
-  -frames:v 1 -update 1 "$OUT"
+  -vf "select='${SEL}',scale=${W}:-2:flags=lanczos,tile=${COLS}x${ROWS}:padding=6:margin=6:color=0x1b1b1b" \
+  -fps_mode passthrough -frames:v 1 -update 1 "$OUT"
 
-python3 -I - "$OUT" "$N" "$COLS" "$FPS" "$DUR" "$VIDEO" <<'PY'
+python3 -I - "$OUT" "$COLS" "$FPS" "$DUR" "$VIDEO" "$VFPS_F" "${IDX[@]}" <<'PY'
 import sys
-out, n, cols, fps, dur, video = sys.argv[1], int(sys.argv[2]), int(sys.argv[3]), float(sys.argv[4]), float(sys.argv[5]), sys.argv[6]
+out, cols, fps, dur, video, vfps = sys.argv[1], int(sys.argv[2]), float(sys.argv[3]), float(sys.argv[4]), sys.argv[5], float(sys.argv[6])
+idx = [int(x) for x in sys.argv[7:]]
 with open(out.rsplit(".", 1)[0] + ".txt", "w") as f:
-    f.write(f"contact sheet of {video} ({dur:.2f}s, {fps:g} fps sampling, {cols} cols)\n")
-    for k in range(n):
-        t = min((k + 0.5) / fps, dur)
-        f.write(f"tile {k+1:>3}  row {k//cols+1} col {k%cols+1}  t={t:6.2f}s  frame@30={int(t*30)}\n")
+    f.write(f"contact sheet of {video} ({dur:.2f}s @ {vfps:g} fps, sampled {fps:g}/s, {cols} cols)\n")
+    for k, fr in enumerate(idx):
+        f.write(f"tile {k+1:>3}  row {k//cols+1} col {k%cols+1}  frame {fr:>5}  t={fr/vfps:7.3f}s\n")
 PY
 
 if [[ -n "$AT" ]]; then
