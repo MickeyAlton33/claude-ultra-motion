@@ -10,7 +10,7 @@
       "name": "ultra-motion",
       "source": "./plugins/ultra-motion",
       "description": "Asks 'Ultra Motion Design pipeline or default mode?' for any motion video request; Ultra runs script → directions → storyboard → VO → captions → animation → reviewed frames → multi-format delivery, on free tools only.",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "author": {
         "name": "Mickey Alton"
       },

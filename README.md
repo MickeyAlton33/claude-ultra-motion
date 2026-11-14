@@ -29,11 +29,15 @@ plugins/ultra-motion/
   skills/ultra-motion/references/        style contract, storyboard template, motion language, audio sources
   skills/ultra-motion/scripts/           doctor, new-video, tts.py, captions, contact-sheet, img, deliver
   agents/motion-reviewer.md              frame-only creative-director review → APPROVED / CHANGES REQUIRED
-  commands/ultra-motion.md               /ultra-motion <brief>
 cookbook/                                README (stack + licences), COOKBOOK (recipes), RUNBOOK
 setup/install.sh                         idempotent installer for the tool stack
 ```
 Model weights and venvs live in `~/.ultra-motion/`, never in this repo.
+
+Why there's no `commands/` folder: Claude Code now registers plugin commands as skills, so a
+`commands/ultra-motion.md` next to the `ultra-motion` skill produced two skills with the same name. The command
+won the listing and hid the skill's trigger description. The skill is therefore user-invocable itself:
+`/ultra-motion [brief]` runs it directly, skipping the Ultra/default question.
 
 ## Update
 ```bash

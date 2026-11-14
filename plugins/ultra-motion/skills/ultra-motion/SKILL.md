@@ -1,7 +1,7 @@
 ---
 name: ultra-motion
-description: Use whenever the user asks for a motion design video, animated video, explainer, promo, teaser, product video, social reel, logo animation, kinetic typography or any animation rendered to video. Before doing anything else, ask the user whether to use the Ultra Motion Design pipeline or default mode.
-user-invocable: false
+description: Use whenever the user asks for a motion design video, animated video, explainer, promo, teaser, product video, social reel, logo animation, kinetic typography or any animation rendered to video. Before doing anything else, ask the user whether to use the Ultra Motion Design pipeline or default mode. Typing /ultra-motion [brief] forces the Ultra pipeline.
+argument-hint: "[brief: what the video is, length, formats, brand, VO]"
 ---
 
 # Ultra Motion Design
@@ -22,6 +22,10 @@ Use AskUserQuestion with one question, "How should I make this video?", and two 
 
 Skip the question only if the user already chose (e.g. they invoked /ultra-motion, or said "ultra" or "quick").
 If default mode: proceed normally and stop following this skill.
+
+**Typed as `/ultra-motion`:** the user ran this skill directly, which means they chose Ultra. Don't ask Step 0; go
+straight to the pipeline. The brief they typed after the command (empty if none): $ARGUMENTS
+If that brief is empty, start pipeline step 1 by asking for it.
 
 ## Free-stack rules (Ultra mode)
 - No paid APIs or paid generators: no HeyGen generation, avatars or voices from `/media-use`, no ElevenLabs,

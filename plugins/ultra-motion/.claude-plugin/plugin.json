@@ -1,7 +1,7 @@
 {
   "name": "ultra-motion",
   "description": "Ultra Motion Design pipeline: asks 'Ultra or default?' for motion video requests, then runs a studio process (script, directions, storyboard, Kokoro VO, whisper.cpp word-timed captions, HyperFrames/GSAP animation, frame-based review, loudness-normalized multi-format delivery) using free local tools only.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": {
     "name": "Mickey Alton"
   },
