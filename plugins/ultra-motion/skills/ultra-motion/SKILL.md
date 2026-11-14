@@ -67,10 +67,16 @@ Use a task list. Commit to git after each stage.
     `scripts/contact-sheet.sh review/draft.mp4 --at <key text moments>` → motion-reviewer subagent (give it the
     project path, the sheet, its .txt legend, the key frames and audio/vo.beats.json) → fix until APPROVED.
     Check key frames individually too. Stop after 3 rounds and show the user what is still open.
+    If the `motion-reviewer` agent type isn't available yet (e.g. the plugin was installed mid-session), run a
+    general-purpose agent and tell it to read and follow this plugin's `agents/motion-reviewer.md`.
+    Verify motion claims by measuring frames (e.g. count stroke pixels per frame), not by eyeballing the sheet.
 11. **Render & deliver.** Full render (`npx hyperframes render --quality delivery -o renders/master.mp4`) →
     `scripts/deliver.sh renders/master.mp4 --formats <requested>` (loudness normalized; all requested formats +
-    GIF preview). For 9:16 and 1:1, prefer a re-laid-out composition rendered at that resolution and passed as
-    `--master-9x16` / `--master-1x1`; otherwise deliver.sh reframes (`--fit crop|pad`) and says so.
+    GIF preview). For 9:16 and 1:1, build a re-laid-out composition (e.g. `vertical.html` at 1080×1920 within
+    the 9:16 safe area in the style contract), render it with `npx hyperframes render -c vertical.html`, and pass
+    it as `--master-9x16` / `--master-1x1`. `hyperframes check` only checks `index.html`, so to check the variant,
+    copy the project's json files to a temp dir, add the variant as `index.html`, and symlink `assets/` and `audio/`.
+    deliver.sh's `--fit crop|pad` reframes shrink 16:9 text below 48 px in 9:16, so use them only for previews.
 12. **Report.** File paths, durations, the credits.md summary, and 3 suggested variations.
 
 ## Scripts

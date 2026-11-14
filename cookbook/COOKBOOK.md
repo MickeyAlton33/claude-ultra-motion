@@ -38,8 +38,11 @@ $UM/img.sh "studio still life of a matte black coffee bag, soft top light, cream
 ```
 Build: one `<div class="clip">` per beat with `data-start`/`data-duration` from `vo.beats.json`; VO as
 `<audio src="audio/vo.wav" data-start="0" data-volume="1">`, music bed at `data-volume="0.1"`.
-For 9:16, duplicate `index.html` as `vertical.html` at 1080×1920, re-lay out (stack, bigger type), render it and
-pass `--master-9x16`.
+For 9:16, duplicate `index.html` as `vertical.html` at 1080×1920 and re-lay it out inside the platform safe area
+(x 120–888, y 288–1248, x ≤ 780 below y 840; a left-aligned column at x = 120 works well). Render it with
+`npx hyperframes render -c vertical.html -o renders/vertical.mp4` and pass `--master-9x16 renders/vertical.mp4`.
+The e2e test teaser (`/tmp/um-test/ember-teaser`) did exactly this: the padded reframe shrank captions to ~29 px,
+while the dedicated vertical passed every TikTok/Reels/Shorts safe-zone check.
 
 ## 2. Technical explainer with Manim (45–90 s)
 **Shape:** question → intuition → mechanism (Manim) → consequence → recap.

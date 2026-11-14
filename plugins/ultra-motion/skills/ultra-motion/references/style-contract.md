@@ -7,7 +7,9 @@ against it. If a choice isn't written here, it isn't decided. Keep it to one scr
 - Master: 1920×1080 @ 30 fps · deliverables: 16:9 / 9:16 / 1:1 (strike what's not needed)
 - Duration: __ s · VO: yes/no · voice: __ · speed: __ · language: __
 - Safe margins: 5% on every side (96 px left/right, 54 px top/bottom at 1920×1080).
-  9:16: also keep the bottom 20% clear of key content (platform UI).
+  9:16 (1080×1920): keep key content inside the overlap of the TikTok, Reels and Shorts clear areas
+  (HyperFrames' safe-area data): **x 120–888, y 288–1248, and x ≤ 780 below y 840**. That area sits off-centre, so a
+  left-aligned column at x = 120 usually works better than centring.
 - Captions: bottom band, above the safe line, max 2 lines, active word highlighted.
 
 ## Palette (max 5)
