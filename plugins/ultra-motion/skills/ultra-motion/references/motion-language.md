@@ -70,6 +70,12 @@ Don't use `pathLength="1"` with CSS `stroke-dasharray`/`stroke-dashoffset`. In H
 whole stroke in on a single frame. (Verified: the attribute version drew over 17 frames; the CSS version over 1.)
 Draws read best with `power4.out` 0.6–0.9 s. Check it by counting stroke pixels frame by frame, not by eye on a sheet.
 
+## Three.js motion blur (multi-sample shutter) in HyperFrames
+If you average N sub-frame renders into an accumulation target, set `renderer.autoClear = false` and clear each
+target yourself. Three's default `autoClear = true` clears the accumulation target on every additive pass, so you
+keep only the last sample at 1/N weight. The result is about 4× too dark in linear light (#161826 came out as
+(7,8,15)), with no motion blur. Check it by measuring one flat background pixel against its hex value.
+
 ## Seek-safety (HyperFrames)
 Every timeline paused and registered on `window.__timelines`; no `Math.random()` without a seed, no
 `Date.now()`, `setTimeout`, `requestAnimationFrame` loops or CSS animations that run outside the GSAP timeline.
