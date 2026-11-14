@@ -34,3 +34,30 @@ mflux 1 GB + FLUX schnell q4 9.6 GB · HyperFrames Chrome + npm cache ~0.5 GB. R
 - `COOKBOOK.md` — recipes: product teaser, explainer (Manim), social reel, logo sting, captions-only.
 - `RUNBOOK.md` — the runbook this repo was built from.
 - `../setup/install.sh` — idempotent installer for a fresh Mac.
+
+
+# Ultra 3D — what this is
+
+`ultra-3d` turns "make me a 3D model / render / printable part / web GLB" into a pipeline: brief → routing →
+concept checkpoint → build → `mesh_check` → rendered review by `3d-reviewer` → per-track exports. Recipes: `3D.md`.
+
+## The stack (everything free except Meshy credits)
+| Purpose | Tool | Licence | Cost | Where it lives |
+|---|---|---|---|---|
+| Scene, modeling, rendering | Blender 5.3 (Cycles on Metal, EEVEE) | GPL-2.0+ | free | `/Applications/Blender.app` |
+| Claude ↔ Blender (interactive) | Blender Lab MCP 1.0.3 (official; **no sandbox**, port 9877, manual Start) | GPL-3.0+ | free | add-on in Blender prefs, server `~/.ultra-3d/blender_mcp` |
+| Parametric CAD | build123d 0.13 · OpenSCAD 2026.10 snapshot | Apache-2.0 · GPL-2.0 | free | `~/.ultra-3d/venv` · `/Applications/OpenSCAD.app` |
+| Mesh checks / repair | trimesh 5.2 · manifold3d 3.5 · fast-simplification | MIT · Apache-2.0 · MIT | free | `~/.ultra-3d/venv` |
+| Web optimisation | glTF-Transform CLI 4.5 (+ optional KTX-Software `ktx` for KTX2) · gltfjsx 6.5.3 | MIT · Apache-2.0 · MIT | free | global npm |
+| Slicing | Bambu Studio 2.08 CLI (P2S/P1S/A1/H2D system presets) | AGPL-3.0 | free | `/Applications/BambuStudio.app` |
+| Video encode | FFmpeg | LGPL/GPL | free | Homebrew |
+| AI meshes, texturing, rigging, animation | Meshy MCP 0.6.11 (bundled) + meshy-3d-generation/printing skills (know-how only) | MIT (client) | **credits** (Pro plan+) | npx cache; key in Keychain |
+| HDRIs, textures, models | Poly Haven API | CC0 assets | free | downloaded per project |
+
+Meshy credit guide (v0.6.11): text-to-3D preview 20 (meshy-7.1) / 5 (6-lite, t2, t2.5) · refine 10 · image-to-3D
+20–30 (+10 texture) · remesh 5 · rig 5 · animation 3/action · print repair 10. See
+`plugins/ultra-3d/skills/ultra-3d/references/meshy-playbook.md`.
+
+## Disk budget (approx.)
+Blender 1 GB · ultra-3d venv 0.7 GB · OpenSCAD 0.2 GB · Blender Lab MCP server env 0.1 GB · Metal kernel cache
+(first Cycles render) ~0.3 GB. Projects: turntable PNG frames are deleted after encoding; keep `renders/` per project.

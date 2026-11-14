@@ -1,7 +1,7 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "claude-ultra-motion",
-  "description": "Ultra Motion Design: a free, local motion-design video pipeline for Claude Code (HyperFrames + GSAP, Manim, Blender, Kokoro TTS, whisper.cpp captions, FLUX.1 schnell, FFmpeg delivery).",
+  "description": "Ultra pipelines for Claude Code: Ultra Motion Design (free local motion-design video: HyperFrames + GSAP, Manim, Blender, Kokoro TTS, whisper.cpp captions, FLUX.1 schnell, FFmpeg) and Ultra 3D (Blender, build123d/OpenSCAD CAD, Meshy AI meshes, glTF-Transform web GLBs, Bambu Studio slicing).",
   "owner": {
     "name": "Mickey Alton"
   },
@@ -25,6 +25,27 @@
         "kokoro",
         "whisper",
         "ffmpeg",
+        "claude-code"
+      ],
+      "category": "productivity"
+    },
+    {
+      "name": "ultra-3d",
+      "source": "./plugins/ultra-3d",
+      "description": "Asks 'Ultra 3D pipeline or default mode?' for any 3D design/modeling request; Ultra runs brief → routing (CAD / Meshy / Blender) → concept checkpoint → build → mesh checks → reviewed renders → per-track exports (renders, web GLB, print + P2S slice, rigged).",
+      "author": {
+        "name": "Mickey Alton"
+      },
+      "homepage": "https://github.com/MickeyAlton33/claude-ultra-motion",
+      "repository": "https://github.com/MickeyAlton33/claude-ultra-motion",
+      "keywords": [
+        "3d",
+        "blender",
+        "cad",
+        "build123d",
+        "3d-printing",
+        "gltf",
+        "meshy",
         "claude-code"
       ],
       "category": "productivity"

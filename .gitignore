@@ -30,3 +30,23 @@ __pycache__/
 
 # os
 .DS_Store
+
+# ultra-3d: meshes, exports, slices — never commit (small hand-made fixtures only, explicitly)
+*.blend
+*.blend1
+*.blend2
+*.stl
+*.3mf
+*.glb
+*.gltf
+*.fbx
+*.obj
+*.ply
+*.usdz
+*.step
+*.gcode
+*.hdr
+*.exr
+*.ktx2
+exports/
+slices/

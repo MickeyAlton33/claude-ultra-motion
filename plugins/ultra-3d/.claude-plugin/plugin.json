@@ -1,0 +1,40 @@
+{
+  "name": "ultra-3d",
+  "version": "1.0.0",
+  "description": "Ultra 3D pipeline: asks 'Ultra 3D or default?' for any 3D design/modeling request, then runs brief → routing (parametric CAD / Meshy AI mesh / Blender scene) → concept checkpoint → build → mesh checks → rendered review by a 3d-reviewer agent → per-track exports (4K renders + turntable, web GLB within budget + R3F component, STL/3MF + Bambu P2S slice estimate, rigged GLB/FBX). Free local tools plus your Meshy credits, with cost approval before every paid call.",
+  "author": {
+    "name": "Mickey Alton"
+  },
+  "homepage": "https://github.com/MickeyAlton33/claude-ultra-motion",
+  "repository": "https://github.com/MickeyAlton33/claude-ultra-motion",
+  "license": "MIT",
+  "keywords": [
+    "3d",
+    "blender",
+    "build123d",
+    "cad",
+    "3d-printing",
+    "bambu",
+    "gltf",
+    "r3f",
+    "meshy",
+    "rendering"
+  ],
+  "userConfig": {
+    "meshy_api_key": {
+      "type": "string",
+      "title": "Meshy API key",
+      "description": "Meshy API key (msy_…, Pro plan or higher). Stored in the system keychain, never in settings files. Leave empty to run the pipeline without Meshy.",
+      "sensitive": true
+    }
+  },
+  "mcpServers": {
+    "meshy": {
+      "command": "npx",
+      "args": ["-y", "@meshy-ai/meshy-mcp-server@0.6.11"],
+      "env": {
+        "MESHY_API_KEY": "${user_config.meshy_api_key}"
+      }
+    }
+  }
+}
