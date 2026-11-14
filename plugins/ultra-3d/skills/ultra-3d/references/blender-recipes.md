@@ -18,10 +18,12 @@ Two ways to drive Blender:
 - `render.sh`/`blender_studio.py` auto-scale: STL/PLY/OBJ ×0.001 (mm→m), GLB/FBX/USD as-is. Override with `--units`.
 - After any import: Object › Apply › All Transforms (Ctrl-A) before modifiers, exports, or rigging.
 - Origin at **bottom centre** for props and prints (`Object › Set Origin › Origin to 3D Cursor` with the cursor at the base).
+- **Front faces −Y** (Blender's front view). `render.sh` assumes it; for CAD modeled with its front at −X pass `--yaw 90`
+  (or export a rotated `_display.stl`).
 
 ## Studio lighting rigs (what `blender_studio.py` builds — reuse the numbers by hand)
-Distances scale with the model: `R` = half its bounding diagonal, `d = 3.2·R`; key power `P = 26·d²` W
-(inverse-square: a 1 m object → d ≈ 2.8 m → key ≈ 200 W; a 100 mm print → d ≈ 0.28 m → key ≈ 2 W).
+Distances scale with the model: `R` = half its bounding diagonal, `d = 3.2·R`; key power `P = 13·d²` W
+(inverse-square: a 1 m object → d ≈ 2.8 m → key ≈ 100 W; a 100 mm print → d ≈ 0.28 m → key ≈ 1 W).
 Camera on −Y looking +Y; lights relative to it:
 
 | Light | Type | Position (x, y, z) | Size | Power | Role |

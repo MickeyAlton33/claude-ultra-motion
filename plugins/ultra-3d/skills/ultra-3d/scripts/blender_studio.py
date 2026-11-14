@@ -41,6 +41,8 @@ ap.add_argument("--hdri")
 ap.add_argument("--transparent", action="store_true")
 ap.add_argument("--save-blend")
 ap.add_argument("--focal", type=float, default=70.0)
+ap.add_argument("--yaw", type=float, default=0.0,
+                help="base yaw (deg) added to every still/turntable angle; use 90 for CAD modeled with its front at -X")
 A = ap.parse_args(argv)
 os.makedirs(A.out, exist_ok=True)
 NAME = A.name or os.path.splitext(os.path.basename(A.input[0]))[0]
@@ -238,7 +240,8 @@ aim = bpy.data.objects.new("aim", None)
 scene.collection.objects.link(aim)
 aim.location = mid
 d = 3.2 * R + 0.05
-P = 26.0 * d * d                   # key watts, inverse-square scaled (≈270 W at 3.2 m; AgX, exposure 0)
+P = 13.0 * d * d                   # key watts, inverse-square scaled (≈130 W at 3.2 m; AgX, exposure 0)
+                                   # calibrated so a 0.42 grey sweep reads mid-grey and #2f6f8f stays teal
 area("key", (-0.75 * d, -0.75 * d, mid.z + 0.65 * d), 1.2 * R + 0.02, P * k_key, spread=70)
 area("fill", (1.0 * d, -0.55 * d, mid.z + 0.2 * d), 2.4 * R + 0.04, P * k_fill)
 area("rim", (0.35 * d, 0.95 * d, mid.z + 0.75 * d), 0.4 * R + 0.01, P * k_rim, size_y=2.2 * R + 0.03)
@@ -358,7 +361,7 @@ set_engine(A.engine, samples)
 written = []
 for key in [s.strip() for s in A.stills.split(",") if s.strip()]:
     yaw, elev, lens = STILLS[key]
-    root.rotation_euler = (0, 0, math.radians(yaw))
+    root.rotation_euler = (0, 0, math.radians(yaw + A.yaw))
     margin = 0.55 if key == "detail" else 1.08
     place_camera(elev, lens, margin)
     bpy.context.view_layer.update()
@@ -375,7 +378,7 @@ if A.turntable > 0:
     set_engine(A.tt_engine, 64 if A.tt_engine == "cycles" else 64)
     place_camera(15, A.focal, 1.08)
     for i in range(A.turntable):
-        root.rotation_euler = (0, 0, 2 * math.pi * i / A.turntable)
+        root.rotation_euler = (0, 0, math.radians(A.yaw) + 2 * math.pi * i / A.turntable)
         bpy.context.view_layer.update()
         scene.render.filepath = os.path.join(tt_dir, f"f_{i:04d}.png")
         bpy.ops.render.render(write_still=True)

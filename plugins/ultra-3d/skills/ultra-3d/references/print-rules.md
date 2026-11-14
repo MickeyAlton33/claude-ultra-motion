@@ -54,6 +54,11 @@ Holes print ~0.1–0.2 mm undersized; outer dimensions ~0.05–0.1 mm oversized.
 3. Surface: the face that's seen → up or vertical; bed face is flat but textured-plate-patterned.
 4. Supports: minimise supported area; supports on hidden faces only.
 5. Overhang budget: rotate until `mesh_check` overhang % is minimal (`slice.sh --orient` lets Bambu auto-orient).
+6. **Design for the orientation:** if a part is printed on its side, make its side profile a *constant-section prism*
+   (full-width ribs/struts instead of two thin side gussets). A gusset at one end of the extrusion becomes an
+   unsupported ceiling when printed sideways — the E2E phone stand went from 4 % overhang to 0.09 % this way.
+7. Export two files from CAD: `<part>_display.stl` (front faces −Y, for renders) and `<part>_print.stl/.3mf`
+   (already in print orientation, on Z = 0) — never rotate CAD exports by hand in the slicer.
 
 ## Snap fits, hinges, threads
 - Cantilever snap: length ≥ 5× thickness, deflection ≤ 1.5 % strain of length for PLA (PETG better: ~3 %).

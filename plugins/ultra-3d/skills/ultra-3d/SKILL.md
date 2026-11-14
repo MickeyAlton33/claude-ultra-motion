@@ -63,7 +63,8 @@ Run `${CLAUDE_SKILL_DIR}/scripts/doctor.sh` first; if anything required is missi
    watertight/manifold + walls + overhangs (print), real-world dimensions, poly and texture budget (web), skins/clips
    (rigged), normals. Fix with `scripts/mesh_fix.py` (`--union`, `--remesh 0.4 [--thicken 1.6]`, `--drop-small 1`,
    `--units-from m`, `--fit-max MM`, `--center`) or in the CAD source. Re-check until PASS.
-6. **Review.** `${CLAUDE_SKILL_DIR}/scripts/render.sh <model> --quick` → turntable MP4 + contact sheet + hero/front/side/
+6. **Review.** `${CLAUDE_SKILL_DIR}/scripts/render.sh <model> --quick` (model's front must face −Y, else add `--yaw 90`)
+   → turntable MP4 + contact sheet + hero/front/side/
    top/detail stills → dispatch the **3d-reviewer** subagent with: the brief path, the stills, the contact sheet and the
    mesh_check JSON. Apply its ranked fixes, re-render, re-review until **APPROVED** (max 3 rounds, then ask the user).
 7. **Export per track.**

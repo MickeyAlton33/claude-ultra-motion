@@ -129,9 +129,14 @@ with BuildPart() as part:
 # ---- export ---------------------------------------------------------------------------------
 out = Path(__file__).resolve().parent.parent / "exports"
 out.mkdir(exist_ok=True)
-export_stl(part.part, str(out / "part.stl"), tolerance=0.01, angular_tolerance=0.1)
-m = Mesher(); m.add_shape(part.part); m.write(str(out / "part.3mf"))
+# display copy for render.sh: front must face -Y (rotate here if your front is elsewhere)
+export_stl(part.part, str(out / "part_display.stl"), tolerance=0.01, angular_tolerance=0.1)
 export_step(part.part, str(out / "part.step"))
+# print copy: already in print orientation, resting on Z = 0 (rotate here, never in the slicer)
+printable = part.part  # e.g. part.part.rotate(Axis.X, -90) to print on its side
+printable = printable.move(Location((0, 0, -printable.bounding_box().min.Z)))
+export_stl(printable, str(out / "part.stl"), tolerance=0.01, angular_tolerance=0.1)
+m = Mesher(); m.add_shape(printable); m.write(str(out / "part.3mf"))
 bb = part.part.bounding_box().size
 print(f"part: {bb.X:.2f} x {bb.Y:.2f} x {bb.Z:.2f} mm, volume {part.part.volume/1000:.2f} cm3")
 EOF

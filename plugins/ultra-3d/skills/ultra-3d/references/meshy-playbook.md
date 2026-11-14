@@ -3,8 +3,12 @@
 Meshy runs through the **Meshy MCP bundled in the ultra-3d plugin** (`@meshy-ai/meshy-mcp-server@0.6.11`,
 key in the macOS Keychain via `claude plugin configure ultra-3d@claude-ultra-motion`). Tool names appear as
 `mcp__plugin_ultra-3d_meshy__<tool>`. The API needs a Meshy **Pro plan or higher**.
-The official `meshy-3d-generation` / `meshy-3d-printing` skills are installed as know-how only; their
-`meshy` CLI commands are NOT installed — always use the MCP tools below.
+The official `meshy-3d-generation` / `meshy-3d-printing` skills are installed as **reading material only**:
+settings deny `Skill(meshy-3d-agent:…)` (so they can't hijack 3D requests), `Bash(meshy *)` and any `meshy-cli`
+install. For deeper Meshy know-how, Read their references directly —
+`~/.claude/plugins/cache/meshy-3d-agent/meshy-3d-generation/*/skills/meshy-3d-generation/references/`
+(`pipelines.md` model pairing & texturing, `animation.md`, `delivery.md`) and `…/meshy-3d-printing/references/printing.md`
+— then translate any `meshy …` CLI step into the equivalent MCP tool below. Never install or run the CLI.
 
 ## 0. The credit rule (non-negotiable)
 1. `meshy_check_balance` (free) → note the balance.

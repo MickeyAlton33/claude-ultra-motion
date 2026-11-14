@@ -1,6 +1,6 @@
 {
   "name": "ultra-3d",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Ultra 3D pipeline: asks 'Ultra 3D or default?' for any 3D design/modeling request, then runs brief → routing (parametric CAD / Meshy AI mesh / Blender scene) → concept checkpoint → build → mesh checks → rendered review by a 3d-reviewer agent → per-track exports (4K renders + turntable, web GLB within budget + R3F component, STL/3MF + Bambu P2S slice estimate, rigged GLB/FBX). Free local tools plus your Meshy credits, with cost approval before every paid call.",
   "author": {
     "name": "Mickey Alton"
@@ -31,7 +31,10 @@
   "mcpServers": {
     "meshy": {
       "command": "npx",
-      "args": ["-y", "@meshy-ai/meshy-mcp-server@0.6.11"],
+      "args": [
+        "-y",
+        "@meshy-ai/meshy-mcp-server@0.6.11"
+      ],
       "env": {
         "MESHY_API_KEY": "${user_config.meshy_api_key}"
       }

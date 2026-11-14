@@ -5,7 +5,9 @@
 #   render.sh MODEL [MODEL…] [--out DIR] [--preset product|dark|white|clay] [--material pla|clay|…]
 #             [--color "#hex"] [--units auto|mm|m] [--final] [--quick] [--turntable N|0]
 #             [--stills hero,front,side,top,detail] [--engine cycles|eevee] [--hdri FILE]
-#             [--transparent] [--save-blend FILE] [--name NAME]
+#             [--transparent] [--save-blend FILE] [--name NAME] [--yaw DEG]
+#
+#   Convention: the model's front faces -Y (Blender front view). CAD with its front at -X → --yaw 90.
 #
 #   --quick   review pass: 1280x720, 48 samples, 72-frame EEVEE turntable  (default)
 #   --final   delivery:    3840x2160, 256 samples, 180-frame Cycles turntable at 1920x1080
@@ -27,7 +29,7 @@ while [[ $# -gt 0 ]]; do
     --final) MODE="final"; shift;;
     --quick) MODE="quick"; shift;;
     --turntable) TT="$2"; shift 2;;
-    --preset|--material|--color|--units|--stills|--engine|--hdri|--save-blend|--name|--focal|--samples)
+    --preset|--material|--color|--units|--stills|--engine|--hdri|--save-blend|--name|--focal|--samples|--yaw)
       PASS+=("$1" "$2"); shift 2;;
     --transparent) PASS+=("$1"); shift;;
     -h|--help) sed -n '2,16p' "$0"; exit 0;;
